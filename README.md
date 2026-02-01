@@ -17,16 +17,8 @@ Reference https://cookiecutter.readthedocs.io/en/stable/README.html#installation
 
 ## Usage
 
-### Remote
-
 ```bash
-cookiecutter gh:veesix-networks/osvbng --directory="tools/generate_plugin"
-```
-
-### Local
-
-```bash
-cookiecutter tools/generate_plugin -o plugins/community/
+cookiecutter gh:veesix-networks/osvbng-plugin-cookiecutter -o plugins/community/
 ```
 
 ## Template Variables
@@ -87,6 +79,6 @@ commit
 
 ## Documentation
 
-- [docs/plugins/PLUGINS.md](../../docs/plugins/PLUGINS.md)
-- [docs/HANDLERS.md](../../docs/HANDLERS.md)
-- Example: `plugins/community/hello`
+- [Plugin Development Guide](https://docs.osvbng.v6n.io/architecture/PLUGINS/)
+- [Handler Documentation](https://docs.osvbng.v6n.io/architecture/HANDLERS/)
+- Example: `plugins/community/hello` in the main osvbng repo
