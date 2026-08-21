@@ -1,84 +1,18 @@
-# osvbng Plugin Generator
+# osvbng Plugin Generator (retired)
 
-Cookiecutter template for generating osvbng community plugins following Pattern 1.
+This template is retired. osvbng Go plugins are in-tree: they are
+compiled into osvbngd through blank imports, there is no shared-object
+loading, and a plugin lands as a pull request under `plugins/community/`
+in the main repo. The living template is the `hello` plugin there,
+which every build compiles, and the guide is
+`docs/architecture/PLUGINS.md`.
 
-## Prerequisites
+This generator targets packages that were removed from osvbng during
+2026 (`pkg/cli`, `cmd/osvbngcli/commands`, `pkg/state`,
+`pkg/state/paths`) and no longer produces code that compiles. The
+decision and its reasons are recorded in the osvbng-context repo,
+ADR 0012.
 
-```bash
-# pipx is strongly recommended.
-pipx install cookiecutter
-
-# If pipx is not an option,
-# you can install cookiecutter in your Python user directory.
-python -m pip install --user cookiecutter
-```
-
-Reference https://cookiecutter.readthedocs.io/en/stable/README.html#installation on how to install cookiecutter if the above does not work for you.
-
-## Usage
-
-```bash
-cookiecutter gh:veesix-networks/osvbng-plugin-cookiecutter -o plugins/community/
-```
-
-## Template Variables
-
-- `plugin_name`: Package/folder name - single word, lowercase (e.g., `myplugin`, `wallgarden`)
-- `plugin_namespace`: Dotted namespace for registration (e.g., `example.myplugin`, `community.wallgarden` NOTE: It can be the same as the plugin_name if its unique across the build)
-- `plugin_description`: Brief description
-- `author_name`: Author name
-- `author_email`: Author email
-- `version`: Plugin version
-
-## Generated Files
-
-```
-plugins/community/{plugin_name}/
-├── config.go
-├── {plugin_name}.go
-├── paths.go
-├── status_show.go
-├── message_conf.go
-└── commands_cli.go
-```
-
-## Post-Generation
-
-1. Register plugin in `plugins/community/all/{plugin_name}.go`:
-
-```go
-package all
-
-import _ "github.com/veesix-networks/osvbng/plugins/community/{plugin_name}"
-```
-
-2. Add config to `/etc/osvbng/config.yaml`:
-
-```yaml
-plugins:
-  {plugin_namespace}:
-    enabled: true
-    message: "Your message"
-```
-
-3. Build and test:
-
-```bash
-go build -o bin/osvbngd ./cmd/osvbngd
-./bin/osvbngd -config test-infra/configs/bng-vpp.yaml
-```
-
-4. Test commands:
-
-```bash
-show {plugin_name} status
-configure
-set {plugin_name} message "test"
-commit
-```
-
-## Documentation
-
-- [Plugin Development Guide](https://docs.osvbng.v6n.io/architecture/PLUGINS/)
-- [Handler Documentation](https://docs.osvbng.v6n.io/architecture/HANDLERS/)
-- Example: `plugins/community/hello` in the main osvbng repo
+- https://github.com/veesix-networks/osvbng/tree/main/plugins/community/hello
+- https://github.com/veesix-networks/osvbng/blob/main/docs/architecture/PLUGINS.md
+- https://github.com/veesix-networks/osvbng-context/blob/main/decisions/0012-go-plugins-in-tree-no-external-sdk.md
